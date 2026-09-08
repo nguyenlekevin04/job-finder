@@ -26,5 +26,5 @@ async def health_check_db():
         connection.execute(sqlalchemy.text("SELECT 1"))
         connection.close()
         return {"db": "connected"}
-    except Exception as e:
+    except AttributeError as e:
         return {"status": "unhealthy", "db": "disconnected", "error": str(e)}
