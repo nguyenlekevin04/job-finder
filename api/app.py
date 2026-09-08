@@ -1,7 +1,7 @@
 import os
 
-from fastapi import FastAPI
 import sqlalchemy
+from fastapi import FastAPI
 
 app = FastAPI()
 
