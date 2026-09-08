@@ -16,7 +16,7 @@ async def health_check_db():
     try:
         engine = sqlalchemy.create_engine(os.getenv("DB_URL"))
         connection = engine.connect()
-        sqlalchemy.text("SELECT 1").execute(connection)
+        connection.execute(sqlalchemy.text("SELECT 1"))
         connection.close()
         return {"db": "connected"}
     except Exception as e:
