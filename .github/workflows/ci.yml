@@ -19,4 +19,6 @@ jobs:
         run: ruff check api
       - name: Run Tests
         working-directory: api
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
         run: pytest
