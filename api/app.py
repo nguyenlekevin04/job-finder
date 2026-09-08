@@ -2,7 +2,7 @@ import os
 
 from fastapi import FastAPI
 import uvicorn
-import SQLAlchemy
+import sqlalchemy
 import os
 
 dotenv.load_dotenv()
@@ -16,9 +16,9 @@ async def health_check():
 @app.get("/health/db")
 async def health_check_db():
     try:
-        engine = SQLAlchemy.create_engine(os.getenv("DB_URL"))
+        engine = sqlalchemy.create_engine(os.getenv("DB_URL"))
         connection = engine.connect()
-        SQLAlchemy.text("SELECT 1").execute(connection)
+        sqlalchemy.text("SELECT 1").execute(connection)
         connection.close()
         return {"db": "connected"}
     except Exception as e:
