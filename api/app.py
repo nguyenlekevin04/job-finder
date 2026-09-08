@@ -1,7 +1,6 @@
 import os
 
 from fastapi import FastAPI
-import uvicorn
 import sqlalchemy
 
 app = FastAPI()
