@@ -5,8 +5,6 @@ import uvicorn
 import sqlalchemy
 import os
 
-dotenv.load_dotenv()
-
 app = FastAPI()
 
 @app.get("/health")
