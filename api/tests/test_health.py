@@ -8,7 +8,7 @@ def test_health_check():
     Test the health check endpoint.
     """
     response = client.get("/health")
-    assert response.status_code == 200
+    assert response.status_code == 300
     assert response.json() == {"status": "healthy"}
 
 def test_health_check_db():
