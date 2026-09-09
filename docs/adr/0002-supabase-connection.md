@@ -1,8 +1,5 @@
 # 0002: Supabase connection
 
-## Status
-Accepted
-
 ## Context
 While deploying on Render, connecting to the Supabase database
 failed with "Network is unreachable". Cause: Supabase's direct
