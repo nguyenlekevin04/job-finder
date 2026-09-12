@@ -1,22 +1,18 @@
-from app import app
-from fastapi.testclient import TestClient
+"""Tests for the health-check endpoints in ``app.py``."""
 
-client = TestClient(app)
+import pytest
 
-def test_health_check():
-    """
-    Test the health check endpoint.
-    """
+
+def test_health_check_returns_healthy(client):
     response = client.get("/health")
+
     assert response.status_code == 200
     assert response.json() == {"status": "healthy"}
 
-def test_health_check_db():
-    """
-    Test the health check database endpoint.
-    """
+
+def test_health_check_db_reports_connected(client):
+    """With a reachable database (the test SQLite file) the endpoint reports it."""
     response = client.get("/health/db")
+
     assert response.status_code == 200
-    json_response = response.json()
-    assert "db" in json_response
-    assert json_response["db"] == "connected" or json_response["db"] == "disconnected"
+    assert response.json() == {"db": "connected"}
