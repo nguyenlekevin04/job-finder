@@ -10,12 +10,13 @@ os.close(_DB_FD)
 os.environ.setdefault("DATABASE_URL", f"sqlite:///{_DB_PATH}")
 os.environ.setdefault("DB_URL", os.environ["DATABASE_URL"])
 
-import pytest  # noqa: E402
-from fastapi.testclient import TestClient  # noqa: E402
-
-from app import app  # noqa: E402
-from database import Base, SessionLocal, engine  # noqa: E402
-from models import User  # noqa: E402, F401  -- imported so the table is registered on Base.metadata
+import pytest
+from app import app
+from database import Base, SessionLocal, engine
+from fastapi.testclient import TestClient
+from models import (
+    User,  # noqa: F401  -- imported so the table is registered on Base.metadata
+)
 
 
 @pytest.fixture(scope="session", autouse=True)

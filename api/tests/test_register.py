@@ -1,9 +1,8 @@
 """Tests for the ``POST /register`` endpoint in ``app.py``."""
 
 import pytest
-from sqlalchemy.exc import IntegrityError
-
 from models import User
+from sqlalchemy.exc import IntegrityError
 
 VALID = {"username": "newuser", "email": "newuser@example.com", "password": "hunter2"}
 

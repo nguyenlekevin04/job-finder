@@ -1,10 +1,10 @@
 import os
 
 import sqlalchemy
-from fastapi import FastAPI, Depends
-from security import hash_password
-from database import get_db, Base, engine
+from database import Base, engine, get_db
+from fastapi import Depends, FastAPI
 from models import User
+from security import hash_password
 
 app = FastAPI()
 

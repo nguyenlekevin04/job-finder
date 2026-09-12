@@ -1,6 +1,7 @@
 import sqlalchemy
 from database import Base
 
+
 class User(Base):
     """
     A user in the system.

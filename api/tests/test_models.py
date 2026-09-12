@@ -1,9 +1,8 @@
 """Tests for the ``User`` ORM model in ``models.py``."""
 
 import pytest
-from sqlalchemy.exc import IntegrityError
-
 from models import User
+from sqlalchemy.exc import IntegrityError
 
 
 def test_user_table_shape():
