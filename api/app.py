@@ -1,7 +1,10 @@
 import os
 
 import sqlalchemy
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from security import hash_password
+from database import get_db, Base, engine
+from models import User
 
 app = FastAPI()
 
@@ -28,3 +31,18 @@ async def health_check_db():
         return {"db": "connected"}
     except AttributeError as e:
         return {"status": "unhealthy", "db": "disconnected", "error": str(e)}
+
+@app.post("/register")
+async def register_user(username: str, email: str, password: str, db=Depends(get_db)):
+    """
+    Register a new user.
+    This endpoint is a placeholder for user registration functionality.
+    """
+    hashed_password = hash_password(password)
+    new_user = User(username=username, email=email, hashed_password=hashed_password)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"id": new_user.id, "username": new_user.username, "email": new_user.email}
+
+Base.metadata.create_all(bind=engine)
