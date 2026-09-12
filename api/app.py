@@ -2,9 +2,15 @@ import os
 
 import sqlalchemy
 from database import Base, engine, get_db
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from models import User
-from security import hash_password
+from schemas import TokenResponse, UserResponse
+from security import (
+    create_access_token,
+    create_refresh_token,
+    hash_password,
+    verify_password,
+)
 
 app = FastAPI()
 
@@ -32,7 +38,7 @@ async def health_check_db():
     except AttributeError as e:
         return {"status": "unhealthy", "db": "disconnected", "error": str(e)}
 
-@app.post("/register")
+@app.post("/register", response_model=UserResponse)
 async def register_user(username: str, email: str, password: str, db=Depends(get_db)):
     """
     Register a new user.
@@ -43,6 +49,20 @@ async def register_user(username: str, email: str, password: str, db=Depends(get
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"id": new_user.id, "username": new_user.username, "email": new_user.email}
+    return new_user
+
+@app.post("/login", response_model=TokenResponse)
+async def login_user(email: str, password: str, db=Depends(get_db), response_model=TokenResponse):
+    """
+    Log in a user.
+    This endpoint is a placeholder for user login functionality.
+    """
+    user = db.query(User).filter(User.email == email).first()
+    if not user or not verify_password(password, user.hashed_password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    access_token = create_access_token(subject=user.id)
+    refresh_token = create_refresh_token(subject=user.id)
+    return {"access_token": access_token, "refresh_token": refresh_token}
 
 Base.metadata.create_all(bind=engine)
