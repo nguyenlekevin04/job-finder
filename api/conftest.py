@@ -10,6 +10,11 @@ os.close(_DB_FD)
 os.environ.setdefault("DATABASE_URL", f"sqlite:///{_DB_PATH}")
 os.environ.setdefault("DB_URL", os.environ["DATABASE_URL"])
 
+# ``security.py`` reads these at import time too; they must never be real
+# secrets, just present so the module can load under test.
+os.environ.setdefault("JWT_SECRET_KEY", "test-access-secret")
+os.environ.setdefault("JWT_REFRESH_SECRET_KEY", "test-refresh-secret")
+
 import pytest
 from app import app
 from database import Base, SessionLocal, engine
