@@ -3,3 +3,5 @@ uvicorn
 sqlalchemy
 psycopg2-binary
 httpx2
+passlib
+bcrypt==4.0.1

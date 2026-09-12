@@ -1,6 +1,5 @@
 """Tests for the health-check endpoints in ``app.py``."""
 
-import pytest
 
 
 def test_health_check_returns_healthy(client):
